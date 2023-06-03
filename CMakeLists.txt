@@ -14,6 +14,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 
 # Include Boost directories
 include_directories(${Boost_INCLUDE_DIRS})
+find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 # Link Boost libraries
 target_link_libraries(opensr2 PRIVATE ${Boost_LIBRARIES})
