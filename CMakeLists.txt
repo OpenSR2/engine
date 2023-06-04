@@ -19,7 +19,20 @@ include_directories(${Boost_INCLUDE_DIRS})
 # Find the vcpkg.cmake file
 find_path(VCPKG_CMAKE_PATH NAMES "vcpkg.cmake" PATHS "~/vcpkg/scripts/buildsystems/" NO_DEFAULT_PATH)
 
-set(Rmlui_DIR "~/vcpkg/installed/x64-osx/share/rmlui/")
+# Find and include Rmlui
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    # macOS
+    set(Rmlui_DIR "~/vcpkg/installed/x64-osx/share/rmlui/")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    # Windows (todo: real path)
+    set(Rmlui_DIR "~/vcpkg/installed/x64-windows/share/rmlui/")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # Linux (todo: real path)
+    set(Rmlui_DIR "~/vcpkg/installed/x64-linux/share/rmlui/")
+else()
+    message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}")
+endif()
+
 
 if(NOT VCPKG_CMAKE_PATH)
     message(FATAL_ERROR "vcpkg.cmake not found. Make sure to provide the correct path to vcpkg installation directory.")
