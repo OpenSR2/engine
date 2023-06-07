@@ -51,6 +51,3 @@ target_link_libraries(engine PRIVATE ${Boost_LIBRARIES})
 
 # Specify installation rules for the libraries
 install(TARGETS engine engine_rmlbackend LIBRARY DESTINATION lib)
-
-# Uncomment the line below if RmlUI is a static library
-# add_definitions(-DRMLUI_STATIC_LIB)
