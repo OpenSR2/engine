@@ -4,6 +4,7 @@
 
 #include "GameWindow.h"
 #include <iostream>
+#include <boost/filesystem.hpp>
 
 GameWindow::GameWindow()
 = default;
@@ -14,6 +15,13 @@ GameWindow::~GameWindow()
 void GameWindow::init()
 {
     std::cout << "GameWindow initialization" << std::endl;
+
+    boost::filesystem::path path("/etc/hosts");
+    if (boost::filesystem::exists(path)) {
+        std::cout << "File exists!" << std::endl;
+    } else {
+        std::cout << "File does not exist!" << std::endl;
+    }
 }
 
 void GameWindow::update()
