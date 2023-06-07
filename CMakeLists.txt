@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(opensr2)
+project(engine)
 
 set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 
@@ -31,21 +31,26 @@ find_package(RmlUi REQUIRED)
 # Find SDL2_image library
 find_library(SDL2_IMAGE_LIBRARY SDL2_image)
 
-# Create RmlUI backend
+# Create RmlUI backend library
 file(GLOB RML_BACKEND_SOURCES Backends/*.cpp)
+add_library(engine_rmlbackend SHARED ${RML_BACKEND_SOURCES})
+target_include_directories(engine_rmlbackend PUBLIC ${RmlUi_INCLUDE_DIRS})
+target_link_libraries(engine_rmlbackend PRIVATE SDL2::SDL2 ${SDL2_IMAGE_LIBRARY} ${RmlUi_LIBRARIES})
+
+set_target_properties(engine_rmlbackend PROPERTIES OUTPUT_NAME "engine")
+
+# Create engine library
 file(GLOB SYSTEM_SOURCES system/*.cpp)
-
-add_library(rmlbackend STATIC ${RML_BACKEND_SOURCES})
-target_include_directories(rmlbackend PUBLIC ${RmlUi_INCLUDE_DIRS})
-target_link_libraries(rmlbackend PRIVATE SDL2::SDL2 ${SDL2_IMAGE_LIBRARY} ${RmlUi_LIBRARIES})
-
-add_executable(opensr2 main.cpp ${SYSTEM_SOURCES})
-target_include_directories(opensr2 PUBLIC Backends system ${RmlUi_INCLUDE_DIRS})
-target_link_libraries(opensr2 PRIVATE SDL2::SDL2 ${SDL2_IMAGE_LIBRARY} ${RmlUi_LIBRARIES} rmlbackend)
+add_library(engine SHARED ${SYSTEM_SOURCES})
+target_include_directories(engine PUBLIC Backends system ${RmlUi_INCLUDE_DIRS})
+target_link_libraries(engine PRIVATE SDL2::SDL2 ${SDL2_IMAGE_LIBRARY} ${RmlUi_LIBRARIES} engine_rmlbackend)
 
 # Include Boost directories
-target_include_directories(opensr2 PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(opensr2 PRIVATE ${Boost_LIBRARIES})
+target_include_directories(engine PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(engine PRIVATE ${Boost_LIBRARIES})
+
+# Specify installation rules for the libraries
+install(TARGETS engine engine_rmlbackend LIBRARY DESTINATION lib)
 
 # Uncomment the line below if RmlUI is a static library
 # add_definitions(-DRMLUI_STATIC_LIB)
