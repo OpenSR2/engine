@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "Graphics/ResourceLoader.h"
+#include "Logic/Galaxy.h"
 
 
 void updateWindowTitle(sf::RenderWindow& window, sf::Clock& clock, int& frameCount)
@@ -23,6 +24,12 @@ void updateWindowTitle(sf::RenderWindow& window, sf::Clock& clock, int& frameCou
 }
 int main()
 {
+    Galaxy galaxy;
+    // Create a star entity
+    Entity starEntity;
+    starEntity.addComponent(RenderComponent());
+    galaxy.addStar(starEntity);
+
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML Window");
 
     // Load the animation shipFrames
@@ -30,7 +37,6 @@ int main()
     std::vector<sf::Texture> starFrames = ResourceLoader::loadTextures("assets/stars/StarBlue", "StarBlue_");
 
     sf::Texture bg = ResourceLoader::loadTexture("assets/backgrounds/bg04.png");
-//    sf::Texture star = ResourceLoader::loadTexture("assets/stars/StarBlue.png");
 
 
     // Create the animated shipSprite
@@ -70,6 +76,7 @@ int main()
         // Update the animated shipSprite
         if (clock.getElapsedTime() >= frameTime)
         {
+            galaxy.update();
             frameIndex = (frameIndex + 1) % shipFrames.size();
             frameIndexStar = (frameIndexStar + 1) % starFrames.size();
             shipSprite.setTexture(shipFrames[frameIndex]);
