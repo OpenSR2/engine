@@ -5,10 +5,12 @@
 #include "Galaxy.h"
 
 
-void Galaxy::Start() {
-    GameObject::Start();
+void Galaxy::update(){
+    // Loop over the stars and update systems
+    for (Entity& star : stars) {
+        renderSystem.update(star);
+        planetSystem.update(star);
+        shipSystem.update(star);
+    }
 }
 
-void Galaxy::Update() {
-    GameObject::Update();
-}
