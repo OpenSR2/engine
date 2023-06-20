@@ -5,7 +5,6 @@
 #ifndef OPENSR_SHIPCOMPONENT_H
 #define OPENSR_SHIPCOMPONENT_H
 struct ShipComponent {
-    // Ship-specific data
-    // ...
+    int id;
 };
 #endif //OPENSR_SHIPCOMPONENT_H

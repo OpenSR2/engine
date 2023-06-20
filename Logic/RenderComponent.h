@@ -4,9 +4,12 @@
 
 #ifndef OPENSR_RENDERCOMPONENT_H
 #define OPENSR_RENDERCOMPONENT_H
+
+#include <SFML/Graphics/Sprite.hpp>
+
 struct RenderComponent {
-    // SFML-related rendering data
-    // ...
+    sf::Sprite sprite;
+
 };
 
 #endif //OPENSR_RENDERCOMPONENT_H

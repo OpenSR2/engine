@@ -5,7 +5,6 @@
 #ifndef OPENSR_PLANETCOMPONENT_H
 #define OPENSR_PLANETCOMPONENT_H
 struct PlanetComponent {
-    // Planet-specific data
-    // ...
+    int id;
 };
 #endif //OPENSR_PLANETCOMPONENT_H
