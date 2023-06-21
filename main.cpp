@@ -1,7 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "Graphics/ResourceLoader.h"
-
+#include "Logic/Components/Galaxy.h"
+#include "Logic/Components/Star.h"
+#include "Logic/Components/Ship.h"
+#include "Logic/Components/Position.h"
+#include <flecs.h>
 
 void updateWindowTitle(sf::RenderWindow& window, sf::Clock& clock, int& frameCount)
 {
@@ -23,6 +27,11 @@ void updateWindowTitle(sf::RenderWindow& window, sf::Clock& clock, int& frameCou
 }
 int main()
 {
+    ecs_world_t* world = ecs_init();
+    ECS_COMPONENT(world, Position);
+    ECS_COMPONENT(world, Galaxy);
+    ECS_COMPONENT(world, Star);
+    ECS_COMPONENT(world, Ship);
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML Window");
 
     // Load the animation shipFrames
